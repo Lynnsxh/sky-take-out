@@ -100,4 +100,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return new PageResult(total,records);
     }
+
+    @Override
+    public Boolean updateStatus(Long id, Integer status) {
+        employeeMapper.updateStatus(id,status);
+        return true;
+    }
+
+    @Override
+    public Employee getById(Long id) {
+        return employeeMapper.getById(id);
+    }
+
+    @Override
+    public Boolean updateEmployeeById(EmployeeDTO employeeDTO) {
+        employeeMapper.updateEmployeeById(employeeDTO);
+        return true;
+    }
 }
