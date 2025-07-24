@@ -78,14 +78,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设置密码，默认密码123456
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
 
-        //设置创建和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        //设置当前记录创建人id和修改人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
-
         employeeMapper.insert(employee);
     }
 
@@ -101,11 +93,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,records);
     }
 
-    @Override
-    public Boolean updateStatus(Long id, Integer status) {
-        employeeMapper.updateStatus(id,status);
-        return true;
-    }
 
     @Override
     public Employee getById(Long id) {
@@ -114,7 +101,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Boolean updateEmployeeById(EmployeeDTO employeeDTO) {
-        employeeMapper.updateEmployeeById(employeeDTO);
+        Employee employee = new Employee();
+
+        //对象属性拷贝
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employeeMapper.update(employee);
+        return true;
+    }
+
+    @Override
+    public Boolean stratOrBan(Long id, Integer status) {
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .build();
+        employeeMapper.update(employee);
         return true;
     }
 }

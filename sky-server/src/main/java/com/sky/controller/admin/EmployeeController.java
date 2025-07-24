@@ -14,6 +14,7 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,7 +102,7 @@ public class EmployeeController {
     @ApiOperation("启用禁用员工账号")
     public Result stratOrstop(@PathVariable Integer status, Long id){
         log.info("改变员工状态,id为：{}",id);
-        return Result.success(employeeService.updateStatus(id,status));
+        return Result.success(employeeService.stratOrBan(id,status));
     }
 
     /**

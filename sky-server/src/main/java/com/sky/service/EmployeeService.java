@@ -19,9 +19,9 @@ public interface EmployeeService {
 
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
-    Boolean updateStatus(Long id, Integer status);
-
     Employee getById(Long id);
 
     Boolean updateEmployeeById(EmployeeDTO employeeDTO);
+
+    Boolean stratOrBan(Long id,Integer status);
 }
