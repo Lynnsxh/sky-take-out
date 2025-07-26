@@ -18,6 +18,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -29,6 +30,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
+
+    private static final String uploadDir = System.getProperty("user.dir") + File.separator + "uploads";
+
 
     /**
      * 注册自定义拦截器
@@ -69,6 +74,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        // 将本地文件系统的 uploads 目录映射为 /uploads/** 的 URL
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + uploadDir + "/");
     }
 
     /**
