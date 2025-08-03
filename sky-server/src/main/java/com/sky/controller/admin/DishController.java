@@ -90,8 +90,10 @@ public class DishController {
 
     @GetMapping("/list")
     @ApiOperation("根据分类id查询菜品")
-    public Result<List<Dish>> getByCategoryId(Long categoryId){
+    public Result<List<DishVO>> getByCategoryId(Long categoryId){
         log.info("根据分类Id查询菜品列表:{}",categoryId);
-        return Result.success(dishService.selectByCategoryId(categoryId));
+        Dish dish = new Dish();
+        dish.setCategoryId(categoryId);
+        return Result.success(dishService.listWithFlavor(dish));
     }
 }
