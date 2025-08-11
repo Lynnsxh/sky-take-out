@@ -3,11 +3,13 @@ package com.sky.mapper;
 import com.github.pagehelper.Page;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -51,4 +53,19 @@ public interface OrderMapper {
     @Select("select * from orders where id= #{id};")
     Orders selectById(Long id);
 
+    /**
+     * 获取待接单数量
+     * @return
+     */
+    @Select("select count(*) from orders where status = #{status}")
+    Integer getStatistic(Integer status);
+
+    /**
+     * 根据订单状态和下单时间来查询超时订单
+     * @param status
+     * @param orderTime
+     * @return
+     */
+    @Select("select * from orders where stauts = #{status} and order_time < #{orderTime}")
+    List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
 }
